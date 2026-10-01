@@ -18,7 +18,7 @@ Install dependencies with `pnpm install`, then run `pnpm dev`. In Figma Make, th
 - **Content:** edit the section copy in `src/App.tsx`.
 - **Colors and typography:** edit the custom properties at the top of `src/index.css`.
 - **Social links:** edit the `links` object at the top of `src/App.tsx`.
-- **Canonical URL:** replace `https://example.com/` in `index.html`.
+- **Canonical URL:** `index.html` points to `https://manueloswald.com/`.
 - **Legal information:** replace the placeholder copy in `public/imprint.html` and review `public/privacy.html` before publishing.
 
 ## Formatting and verification
@@ -27,4 +27,6 @@ Run `pnpm format` to format the project and `pnpm build` to create the productio
 
 ## GitHub Pages deployment
 
-Set `FIGMA_PUBLIC_URL` to the repository subpath when building (for example, `/portfolio`) so Vite emits correct asset URLs. Publish the generated `dist/` directory with GitHub Actions or the Pages deployment action.
+This repository publishes to GitHub Pages through `.github/workflows/pages.yml` whenever changes land on `main`. The workflow installs dependencies with pnpm, runs `pnpm build`, uploads the generated `dist/` directory, and deploys it with GitHub's Pages deployment action.
+
+The custom domain is configured by `public/CNAME`, so the built site includes a `CNAME` file for `manueloswald.com`. In the repository settings, set Pages to use GitHub Actions as the source and configure the domain DNS to point at GitHub Pages.
