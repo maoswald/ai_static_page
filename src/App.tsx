@@ -1,7 +1,7 @@
 const links = {
   github: "https://github.com/manueloswald",
   linkedin: "https://www.linkedin.com/in/manueloswald/",
-  email: "mailto:hello@manueloswald.com",
+  email: "mailto:contact@manueloswald.com",
 } as const;
 
 type IconProps = {
