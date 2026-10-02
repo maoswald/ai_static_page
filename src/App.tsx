@@ -136,7 +136,7 @@ export default function App() {
       <section className="editorial editorial--beyond" aria-labelledby="beyond-title">
         <p className="eyebrow">Beyond Work</p>
         <h2 id="beyond-title">
-          Technology, making,
+          Technology, making,{" "}
           <br />
           sailing and exploring.
         </h2>
@@ -149,7 +149,7 @@ export default function App() {
       <section className="editorial editorial--about" aria-labelledby="about-title">
         <p className="eyebrow">About Me</p>
         <h2 id="about-title">
-          Curious, active
+          Curious, active{" "}
           <br />
           and always learning.
         </h2>
