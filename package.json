@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "format": "oxfmt",
     "validate:jsonld": "node scripts/validate-jsonld.mjs",
-    "validate:analytics": "node scripts/validate-analytics.mjs"
+    "validate:analytics": "node scripts/validate-analytics.mjs",
+    "validate:indexing": "node scripts/validate-indexing.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

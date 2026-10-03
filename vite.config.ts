@@ -231,7 +231,10 @@ function figmaSiteConfiguration(
               ? [
                   {
                     tag: "meta",
-                    attrs: { property: "og:image:alt", content: socialImageAlt },
+                    attrs: {
+                      property: "og:image:alt",
+                      content: socialImageAlt,
+                    },
                     injectTo: "head" as const,
                   },
                 ]
@@ -250,7 +253,10 @@ function figmaSiteConfiguration(
               ? [
                   {
                     tag: "meta",
-                    attrs: { name: "twitter:image:alt", content: socialImageAlt },
+                    attrs: {
+                      name: "twitter:image:alt",
+                      content: socialImageAlt,
+                    },
                     injectTo: "head" as const,
                   },
                 ]

@@ -26,7 +26,18 @@ Install dependencies with `pnpm install`, then run `pnpm dev`. In Figma Make, th
 
 ## Formatting and verification
 
-Run `pnpm format` to format the project and `pnpm build` to create the production bundle in `dist/`. After building, run `pnpm run validate:jsonld` to verify the generated homepage contains one valid Person JSON-LD block.
+Run `pnpm format` to format the project and `pnpm build` to create the production bundle in `dist/`. After building, run `pnpm run validate:jsonld` to verify the generated homepage contains one valid Person JSON-LD block, and `pnpm run validate:indexing` to verify robots, sitemap, canonical URLs, noindex pages, and production URL hygiene.
+
+## Google Search Console
+
+Use a Search Console Domain property for `manueloswald.com`; do not add an HTML verification tag unless Google provides a token and you intentionally choose that method.
+
+1. Open Google Search Console and create a **Domain** property for `manueloswald.com`.
+2. Copy Google's DNS TXT verification value.
+3. In IONOS DNS settings for `manueloswald.com`, add the TXT record exactly as Google provides it.
+4. Wait for DNS propagation, then click **Verify** in Search Console.
+5. After verification, submit `https://manueloswald.com/sitemap.xml`.
+6. Use URL Inspection for `https://manueloswald.com/` to request indexing if needed.
 
 ## GitHub Pages deployment
 
