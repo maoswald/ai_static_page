@@ -4,6 +4,12 @@
   "robots": {
     "index": true
   },
+  "openGraph": {
+    "image": "https://manueloswald.com/social-image.png",
+    "imageWidth": 1200,
+    "imageHeight": 630,
+    "imageAlt": "Manuel Oswald — Enterprise Transformation, Technology Strategy and AI & Cloud"
+  },
   "accessibility": {
     "addBypassLinks": false,
     "ignoreReducedMotion": false

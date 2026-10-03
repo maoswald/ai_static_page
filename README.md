@@ -19,7 +19,8 @@ Install dependencies with `pnpm install`, then run `pnpm dev`. In Figma Make, th
 - **Colors and typography:** edit the custom properties at the top of `src/index.css`.
 - **Social links:** edit the `links` object at the top of `src/App.tsx`.
 - **Canonical URL:** `index.html` points to `https://manueloswald.com/`.
-- **Structured data:** the Person JSON-LD is defined in `index.html`. Update the professional `description`, `jobTitle`, and `knowsAbout` values there. Add or remove `sameAs` entries only for public profile URLs that are also intentionally represented by the site.
+- **Structured data:** the Person JSON-LD is defined in `index.html`. Update the professional `description`, `jobTitle`, `image`, and `knowsAbout` values there. Add or remove `sameAs` entries only for public profile URLs that are also intentionally represented by the site.
+- **Social image:** the canonical social preview image is `public/social-image.png`. Its Open Graph and Twitter metadata are configured in `.figma/make/site.json`.
 - **Legal information:** replace the placeholder copy in `public/imprint.html` and review `public/privacy.html` before publishing.
 
 ## Formatting and verification

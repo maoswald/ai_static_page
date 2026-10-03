@@ -58,6 +58,9 @@ type FigmaSiteConfiguration = {
   }
   openGraph?: {
     image?: string
+    imageWidth?: number
+    imageHeight?: number
+    imageAlt?: string
   }
   analytics?: {
     googleAnalyticsId?: string
@@ -96,6 +99,9 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   const description = config.description ?? ""
   const favicon = config.icons?.icon ?? ""
   const socialImage = config.openGraph?.image ?? ""
+  const socialImageWidth = config.openGraph?.imageWidth
+  const socialImageHeight = config.openGraph?.imageHeight
+  const socialImageAlt = config.openGraph?.imageAlt ?? ""
   const language = sanitizeHtmlValue(config.language) || "en"
   const googleAnalyticsId = sanitizeHtmlValue(
     config.analytics?.googleAnalyticsId,
@@ -185,6 +191,39 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
               attrs: { property: "og:image", content: socialImage },
               injectTo: "head",
             },
+            ...(socialImageWidth
+              ? [
+                  {
+                    tag: "meta",
+                    attrs: {
+                      property: "og:image:width",
+                      content: String(socialImageWidth),
+                    },
+                    injectTo: "head" as const,
+                  },
+                ]
+              : []),
+            ...(socialImageHeight
+              ? [
+                  {
+                    tag: "meta",
+                    attrs: {
+                      property: "og:image:height",
+                      content: String(socialImageHeight),
+                    },
+                    injectTo: "head" as const,
+                  },
+                ]
+              : []),
+            ...(socialImageAlt
+              ? [
+                  {
+                    tag: "meta",
+                    attrs: { property: "og:image:alt", content: socialImageAlt },
+                    injectTo: "head" as const,
+                  },
+                ]
+              : []),
             {
               tag: "meta",
               attrs: { name: "twitter:card", content: "summary_large_image" },
@@ -195,6 +234,15 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
               attrs: { name: "twitter:image", content: socialImage },
               injectTo: "head",
             },
+            ...(socialImageAlt
+              ? [
+                  {
+                    tag: "meta",
+                    attrs: { name: "twitter:image:alt", content: socialImageAlt },
+                    injectTo: "head" as const,
+                  },
+                ]
+              : []),
           )
         }
 

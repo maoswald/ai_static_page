@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs"
 
 const html = readFileSync("dist/index.html", "utf8")
+const expectedSocialImage = "https://manueloswald.com/social-image.png"
+const expectedSocialImageAlt =
+  "Manuel Oswald — Enterprise Transformation, Technology Strategy and AI & Cloud"
 const jsonLdBlocks = [
   ...html.matchAll(
     /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
@@ -29,6 +32,34 @@ function assertAbsoluteUrl(value, label) {
   if (url.protocol !== "https:" && url.protocol !== "http:") {
     fail(`${label} must use http or https: ${value}`)
   }
+}
+
+function decodeHtmlAttribute(value) {
+  return value
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+}
+
+function getAttribute(tag, name) {
+  const match = tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))
+  return match ? decodeHtmlAttribute(match[1]) : undefined
+}
+
+function findMetaContent(attributeName, attributeValue) {
+  const matches = [...html.matchAll(/<meta\b[^>]*>/gi)].filter(
+    (match) => getAttribute(match[0], attributeName) === attributeValue,
+  )
+
+  if (matches.length !== 1) {
+    fail(
+      `Expected exactly one meta ${attributeName}="${attributeValue}", found ${matches.length}.`,
+    )
+  }
+
+  return getAttribute(matches[0][0], "content")
 }
 
 const parsedBlocks = jsonLdBlocks.map((block, index) => {
@@ -61,6 +92,12 @@ if (person.url !== "https://manueloswald.com") {
   fail(`Unexpected url: ${person.url}`)
 }
 
+if (person.image !== expectedSocialImage) {
+  fail(`Unexpected image: ${person.image}`)
+}
+
+assertAbsoluteUrl(person.image, "image")
+
 if (!Array.isArray(person.sameAs)) {
   fail("sameAs must be an array.")
 }
@@ -70,6 +107,25 @@ person.sameAs.forEach((url, index) => {
     fail(`sameAs[${index}] must be a string.`)
   }
   assertAbsoluteUrl(url, `sameAs[${index}]`)
+})
+
+const expectedMeta = [
+  ["property", "og:image", expectedSocialImage],
+  ["property", "og:image:width", "1200"],
+  ["property", "og:image:height", "630"],
+  ["property", "og:image:alt", expectedSocialImageAlt],
+  ["name", "twitter:card", "summary_large_image"],
+  ["name", "twitter:image", expectedSocialImage],
+  ["name", "twitter:image:alt", expectedSocialImageAlt],
+]
+
+expectedMeta.forEach(([attributeName, attributeValue, expectedContent]) => {
+  const content = findMetaContent(attributeName, attributeValue)
+  if (content !== expectedContent) {
+    fail(
+      `Unexpected content for ${attributeName}="${attributeValue}": ${content}`,
+    )
+  }
 })
 
 ;[
