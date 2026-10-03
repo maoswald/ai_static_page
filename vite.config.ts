@@ -6,9 +6,10 @@ import path from "node:path"
 import siteConfiguration from "./.figma/make/site.json"
 
 // Vite config — https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
   const emitSourcemaps = mode === "development"
+  const emitProductionAnalytics = command === "build" && mode === "production"
 
   return {
     base: process.env.FIGMA_PUBLIC_URL
@@ -21,7 +22,9 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
-      figmaSiteConfiguration(siteConfiguration),
+      figmaSiteConfiguration(siteConfiguration, {
+        emitProductionAnalytics,
+      }),
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: "/src/**/*.stories.{ts,tsx,js,jsx}" }),
@@ -64,6 +67,7 @@ type FigmaSiteConfiguration = {
   }
   analytics?: {
     googleAnalyticsId?: string
+    cloudflareWebAnalyticsToken?: string
   }
   customScripts?: {
     headStart?: string
@@ -77,7 +81,10 @@ type FigmaSiteConfiguration = {
 }
 
 /** Applies /.figma/make/site.json to the generated document shell. */
-function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
+function figmaSiteConfiguration(
+  config: FigmaSiteConfiguration,
+  options: { emitProductionAnalytics: boolean },
+): Plugin {
   function sanitizeHtmlValue(value: string | undefined): string {
     return value?.replace(/[^a-zA-Z0-9_-]/g, "") || ""
   }
@@ -106,6 +113,11 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   const googleAnalyticsId = sanitizeHtmlValue(
     config.analytics?.googleAnalyticsId,
   )
+  const cloudflareWebAnalyticsToken = (
+    process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN ??
+    config.analytics?.cloudflareWebAnalyticsToken ??
+    ""
+  ).trim()
   const headStart = config.customScripts?.headStart ?? ""
   const headEnd = config.customScripts?.headEnd ?? ""
   const bodyStart = config.customScripts?.bodyStart ?? ""
@@ -267,6 +279,20 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
               injectTo: "head",
             },
           )
+        }
+
+        if (options.emitProductionAnalytics && cloudflareWebAnalyticsToken) {
+          tags.push({
+            tag: "script",
+            attrs: {
+              defer: true,
+              src: "https://static.cloudflareinsights.com/beacon.min.js",
+              "data-cf-beacon": JSON.stringify({
+                token: cloudflareWebAnalyticsToken,
+              }),
+            },
+            injectTo: "head",
+          })
         }
 
         if (config.accessibility?.addBypassLinks) {
