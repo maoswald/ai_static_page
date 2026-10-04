@@ -28,6 +28,18 @@ Install dependencies with `pnpm install`, then run `pnpm dev`. In Figma Make, th
 
 Run `pnpm format` to format the project and `pnpm build` to create the production bundle in `dist/`. After building, run `pnpm run validate:jsonld` to verify the generated homepage contains one valid Person JSON-LD block, and `pnpm run validate:indexing` to verify robots, sitemap, canonical URLs, noindex pages, and production URL hygiene.
 
+## Quality checks
+
+The production bundle is checked with Lighthouse CI and Playwright/axe against the built `dist/` output. Install the local browser once with `pnpm exec playwright install chromium`, then run:
+
+- `pnpm run quality` — start `vite preview` and run all quality checks.
+- `pnpm run quality:lighthouse` — run only Lighthouse CI.
+- `pnpm run quality:a11y` — run only Playwright/axe accessibility checks.
+
+Lighthouse checks `/`, `/privacy.html`, and `/imprint.html`. Thresholds are Performance >= 90, Accessibility >= 95, Best Practices >= 95, and SEO >= 95. Performance, accessibility, and best-practices thresholds are enforced for every checked page. SEO >= 95 is enforced for the homepage; SEO on the legal pages is reported as a warning because those pages are intentionally `noindex`. Search Console/indexing correctness is enforced by `pnpm run validate:indexing`.
+
+Accessibility checks cover the same pages with axe WCAG 2 A/AA and WCAG 2.1 A/AA rules, plus a heading-outline check. Failures should be treated as real issues unless they come from an intentional legal-page indexing choice or a known Lighthouse fluctuation.
+
 ## Google Search Console
 
 Use a Search Console Domain property for `manueloswald.com`; do not add an HTML verification tag unless Google provides a token and you intentionally choose that method.
