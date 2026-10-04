@@ -51,13 +51,21 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Build
+        env:
+          CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ github.event_name == 'push' && secrets.CLOUDFLARE_WEB_ANALYTICS_TOKEN || '' }}
         run: pnpm build
 
       - name: Validate static SEO outputs
+        env:
+          CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ github.event_name == 'push' && secrets.CLOUDFLARE_WEB_ANALYTICS_TOKEN || '' }}
         run: |
           pnpm run validate:indexing
           pnpm run validate:jsonld
-          pnpm run validate:analytics -- absent
+          if [ -n "$CLOUDFLARE_WEB_ANALYTICS_TOKEN" ]; then
+            pnpm run validate:analytics -- present
+          else
+            pnpm run validate:analytics -- absent
+          fi
 
       - name: Run Lighthouse and accessibility checks
         run: pnpm run quality

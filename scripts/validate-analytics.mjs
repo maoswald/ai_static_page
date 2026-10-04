@@ -35,10 +35,14 @@ const beacons = [...html.matchAll(/<script\b[^>]*>/gi)].filter(
 
 if (expectedState === "absent") {
   if (beacons.length !== 0) {
-    fail(`Expected no Cloudflare Web Analytics beacon, found ${beacons.length}.`)
+    fail(
+      `Expected no Cloudflare Web Analytics beacon, found ${beacons.length}.`,
+    )
   }
 
-  console.log("Cloudflare Web Analytics beacon is absent.")
+  console.log(
+    "Cloudflare Web Analytics beacon is disabled and absent as expected.",
+  )
   process.exit(0)
 }
 
@@ -62,7 +66,9 @@ let parsedConfig
 try {
   parsedConfig = JSON.parse(beaconConfig)
 } catch (error) {
-  fail(`Cloudflare Web Analytics data-cf-beacon is invalid JSON: ${error.message}`)
+  fail(
+    `Cloudflare Web Analytics data-cf-beacon is invalid JSON: ${error.message}`,
+  )
 }
 
 if (!parsedConfig.token || typeof parsedConfig.token !== "string") {
