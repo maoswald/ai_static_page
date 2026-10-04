@@ -6,6 +6,10 @@ const viewports = [
   { name: "desktop", width: 1440, height: 1000 },
 ]
 
+const errorPageViewports = viewports.filter(({ name }) =>
+  ["mobile", "desktop"].includes(name),
+)
+
 async function prepareStableScreenshot(page: import("@playwright/test").Page) {
   await page.addStyleTag({
     content: `
@@ -36,6 +40,21 @@ for (const viewport of viewports) {
     await page.goto("/", { waitUntil: "networkidle" })
     await prepareStableScreenshot(page)
     await expect(page).toHaveScreenshot(`homepage-${viewport.name}.png`, {
+      fullPage: true,
+    })
+  })
+}
+
+for (const viewport of errorPageViewports) {
+  test(`404 visual baseline at ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    })
+
+    await page.goto("/404.html", { waitUntil: "networkidle" })
+    await prepareStableScreenshot(page)
+    await expect(page).toHaveScreenshot(`404-${viewport.name}.png`, {
       fullPage: true,
     })
   })

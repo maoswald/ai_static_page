@@ -5,6 +5,7 @@ const pages = [
   { path: "/", title: "Homepage" },
   { path: "/privacy.html", title: "Privacy page" },
   { path: "/imprint.html", title: "Imprint page" },
+  { path: "/404.html", title: "404 page" },
 ]
 
 test.describe("accessibility", () => {

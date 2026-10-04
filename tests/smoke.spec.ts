@@ -147,8 +147,39 @@ test("footer icon links are keyboard focusable and expose focus and hover states
 })
 
 test("static internal pages respond successfully", async ({ page }) => {
-  for (const path of ["/privacy.html", "/imprint.html"]) {
+  for (const path of ["/privacy.html", "/imprint.html", "/404.html"]) {
     const response = await page.goto(path, { waitUntil: "domcontentloaded" })
     expect(response?.ok()).toBeTruthy()
   }
+})
+
+test("404 page renders, stays noindex, links home, and avoids mobile overflow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const response = await page.goto("/404.html", {
+    waitUntil: "domcontentloaded",
+  })
+
+  expect(response?.ok()).toBeTruthy()
+  await expect(page.getByRole("heading", { name: "404" })).toBeVisible()
+  await expect(page.getByText("Page not found.")).toBeVisible()
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noindex/i,
+  )
+
+  const dimensions = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }))
+  expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
+
+  await page.getByRole("link", { name: /Return home/i }).click()
+  await expect(page).toHaveURL("/")
+  await expect(
+    page.getByRole("heading", {
+      name: /Enterprise Transformation,\s*Technology Strategy\s*and AI & Cloud/i,
+    }),
+  ).toBeVisible()
 })
