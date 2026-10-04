@@ -102,7 +102,12 @@ try {
   }
 
   if (mode === "all" || mode === "a11y") {
-    await run("pnpm", ["exec", "playwright", "test"], {
+    const testArgs =
+      mode === "a11y"
+        ? ["exec", "playwright", "test", "tests/accessibility.spec.ts"]
+        : ["exec", "playwright", "test"]
+
+    await run("pnpm", testArgs, {
       env: { ...process.env, QUALITY_BASE_URL: baseUrl },
     })
   }
