@@ -61,6 +61,7 @@ jobs:
         run: |
           pnpm run validate:indexing
           pnpm run validate:jsonld
+          pnpm run validate:links
           if [ -n "$CLOUDFLARE_WEB_ANALYTICS_TOKEN" ]; then
             pnpm run validate:analytics -- present
           else

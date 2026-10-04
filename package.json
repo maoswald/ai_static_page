@@ -16,6 +16,7 @@
     "validate:jsonld": "node scripts/validate-jsonld.mjs",
     "validate:analytics": "node scripts/validate-analytics.mjs",
     "validate:indexing": "node scripts/validate-indexing.mjs",
+    "validate:links": "node scripts/validate-links.mjs",
     "validate:lighthouse": "node scripts/validate-lighthouse.mjs"
   },
   "dependencies": {

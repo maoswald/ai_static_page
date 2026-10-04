@@ -26,7 +26,7 @@ Install dependencies with `pnpm install`, then run `pnpm dev`. In Figma Make, th
 
 ## Formatting and verification
 
-Run `pnpm format` to format the project and `pnpm build` to create the production bundle in `dist/`. After building, run `pnpm run validate:jsonld` to verify the generated homepage contains one valid Person JSON-LD block, and `pnpm run validate:indexing` to verify robots, sitemap, canonical URLs, noindex pages, and production URL hygiene.
+Run `pnpm format` to format the project and `pnpm build` to create the production bundle in `dist/`. After building, run `pnpm run validate:jsonld` to verify the generated homepage contains one valid Person JSON-LD block, `pnpm run validate:indexing` to verify robots, sitemap, canonical URLs, noindex pages, and production URL hygiene, and `pnpm run validate:links` to check generated internal links plus external URL syntax. The link check does not depend on live third-party availability.
 
 ## Quality checks
 
