@@ -35,11 +35,12 @@ The production bundle is checked with Lighthouse CI and Playwright/axe against t
 - `pnpm run quality` — start `vite preview` and run all quality checks.
 - `pnpm run quality:lighthouse` — run only Lighthouse CI.
 - `pnpm run quality:a11y` — run only Playwright/axe accessibility checks.
+- `pnpm run quality:visual` — run only Playwright visual regression checks.
 - `pnpm run test:smoke` — run the focused Playwright smoke tests against an already running preview server.
 
 Lighthouse checks `/`, `/privacy.html`, and `/imprint.html`. Thresholds are Performance >= 90, Accessibility >= 95, Best Practices >= 95, and SEO >= 95. Performance, accessibility, and best-practices thresholds are enforced for every checked page. SEO >= 95 is enforced for the homepage only, because the legal pages are intentionally `noindex`. Search Console/indexing correctness is enforced by `pnpm run validate:indexing`.
 
-Accessibility checks cover the same pages with axe WCAG 2 A/AA and WCAG 2.1 A/AA rules, plus a heading-outline check. Smoke tests cover homepage sections, footer links, legal-page navigation, responsive overflow at mobile/tablet/desktop widths, no-JavaScript fallback content, and footer keyboard focus/hover behavior. Update the tests when section headings, footer links, or intentional page paths change. Failures should be treated as real issues unless they come from an intentional legal-page indexing choice or a known Lighthouse fluctuation.
+Accessibility checks cover the same pages with axe WCAG 2 A/AA and WCAG 2.1 A/AA rules, plus a heading-outline check. Smoke tests cover homepage sections, footer links, legal-page navigation, responsive overflow at mobile/tablet/desktop widths, no-JavaScript fallback content, and footer keyboard focus/hover behavior. Visual regression checks capture full-page homepage screenshots at 390 x 844, 1024 x 768, and 1440 x 1000, with Playwright Chromium and a 1% max differing-pixel ratio. To approve an intentional visual change, run `pnpm run build`, start a preview server, then run `pnpm exec playwright test tests/visual.spec.ts --update-snapshots` and review the updated PNG baselines before committing them. Update the tests when section headings, footer links, intentional page paths, or approved visual baselines change. Failures should be treated as real issues unless they come from an intentional legal-page indexing choice or a known Lighthouse fluctuation.
 
 ## Google Search Console
 

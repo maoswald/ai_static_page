@@ -2,12 +2,12 @@ import { spawn } from "node:child_process"
 import { request } from "node:http"
 
 const mode = process.argv[2] ?? "all"
-const allowedModes = new Set(["all", "lighthouse", "a11y"])
+const allowedModes = new Set(["all", "lighthouse", "a11y", "visual"])
 const baseUrl = process.env.QUALITY_BASE_URL ?? "http://127.0.0.1:4173"
 
 if (!allowedModes.has(mode)) {
   console.error(
-    "Usage: node scripts/run-quality-checks.mjs [all|lighthouse|a11y]",
+    "Usage: node scripts/run-quality-checks.mjs [all|lighthouse|a11y|visual]",
   )
   process.exit(1)
 }
@@ -99,6 +99,12 @@ try {
   if (mode === "all" || mode === "lighthouse") {
     await run("pnpm", ["exec", "lhci", "autorun"])
     await run("node", ["scripts/validate-lighthouse.mjs"])
+  }
+
+  if (mode === "visual") {
+    await run("pnpm", ["exec", "playwright", "test", "tests/visual.spec.ts"], {
+      env: { ...process.env, QUALITY_BASE_URL: baseUrl },
+    })
   }
 
   if (mode === "all" || mode === "a11y") {
