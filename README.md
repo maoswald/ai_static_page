@@ -36,7 +36,7 @@ The production bundle is checked with Lighthouse CI and Playwright/axe against t
 - `pnpm run quality:lighthouse` — run only Lighthouse CI.
 - `pnpm run quality:a11y` — run only Playwright/axe accessibility checks.
 
-Lighthouse checks `/`, `/privacy.html`, and `/imprint.html`. Thresholds are Performance >= 90, Accessibility >= 95, Best Practices >= 95, and SEO >= 95. Performance, accessibility, and best-practices thresholds are enforced for every checked page. SEO >= 95 is enforced for the homepage; SEO on the legal pages is reported as a warning because those pages are intentionally `noindex`. Search Console/indexing correctness is enforced by `pnpm run validate:indexing`.
+Lighthouse checks `/`, `/privacy.html`, and `/imprint.html`. Thresholds are Performance >= 90, Accessibility >= 95, Best Practices >= 95, and SEO >= 95. Performance, accessibility, and best-practices thresholds are enforced for every checked page. SEO >= 95 is enforced for the homepage only, because the legal pages are intentionally `noindex`. Search Console/indexing correctness is enforced by `pnpm run validate:indexing`.
 
 Accessibility checks cover the same pages with axe WCAG 2 A/AA and WCAG 2.1 A/AA rules, plus a heading-outline check. Failures should be treated as real issues unless they come from an intentional legal-page indexing choice or a known Lighthouse fluctuation.
 
