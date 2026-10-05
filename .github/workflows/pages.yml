@@ -50,26 +50,21 @@ jobs:
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Build
+      - name: Verify
         env:
           CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ github.event_name == 'push' && secrets.CLOUDFLARE_WEB_ANALYTICS_TOKEN || '' }}
-        run: pnpm build
+        run: pnpm run verify:full
 
-      - name: Validate static SEO outputs
-        env:
-          CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ github.event_name == 'push' && secrets.CLOUDFLARE_WEB_ANALYTICS_TOKEN || '' }}
-        run: |
-          pnpm run validate:indexing
-          pnpm run validate:jsonld
-          pnpm run validate:links
-          if [ -n "$CLOUDFLARE_WEB_ANALYTICS_TOKEN" ]; then
-            pnpm run validate:analytics -- present
-          else
-            pnpm run validate:analytics -- absent
-          fi
-
-      - name: Run Lighthouse and accessibility checks
-        run: pnpm run quality
+      - name: Upload quality artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-artifacts
+          path: |
+            test-results/
+            playwright-report/
+            .lighthouseci/
+          if-no-files-found: ignore
 
       - name: Setup Pages
         if: github.event_name == 'push'

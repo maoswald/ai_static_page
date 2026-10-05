@@ -25,10 +25,15 @@ The workflow:
 3. Sets up Node.js 22 with pnpm caching.
 4. Installs dependencies with `pnpm install --frozen-lockfile`.
 5. Installs Playwright Chromium.
-6. Runs `pnpm build`.
-7. Runs indexing, JSON-LD, link, and analytics validation.
-8. Runs `pnpm run quality`.
-9. Uploads `dist/` and deploys it on pushes to `main`.
+6. Runs `pnpm run verify:full`.
+7. Uploads failure artifacts only if verification fails.
+8. Uploads `dist/` and deploys it on pushes to `main`.
+
+`pnpm run verify:full` performs the production build, static validation, analytics validation, Lighthouse, accessibility, smoke tests, and visual regression. The build output is reused for deployment.
+
+## Security and Permissions
+
+The workflow grants repository contents read access by default. Pages write and OIDC permissions are granted only to the deployment job. The Cloudflare Web Analytics token is passed only for push builds, not pull request builds.
 
 ## Production Domain
 

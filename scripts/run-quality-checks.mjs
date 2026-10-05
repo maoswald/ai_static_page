@@ -2,12 +2,19 @@ import { spawn } from "node:child_process"
 import { request } from "node:http"
 
 const mode = process.argv[2] ?? "all"
-const allowedModes = new Set(["all", "lighthouse", "a11y", "visual"])
+const allowedModes = new Set([
+  "all",
+  "standard",
+  "lighthouse",
+  "a11y",
+  "smoke",
+  "visual",
+])
 const baseUrl = process.env.QUALITY_BASE_URL ?? "http://127.0.0.1:4173"
 
 if (!allowedModes.has(mode)) {
   console.error(
-    "Usage: node scripts/run-quality-checks.mjs [all|lighthouse|a11y|visual]",
+    "Usage: node scripts/run-quality-checks.mjs [all|standard|lighthouse|a11y|smoke|visual]",
   )
   process.exit(1)
 }
@@ -107,13 +114,15 @@ try {
     })
   }
 
-  if (mode === "all" || mode === "a11y") {
-    const testArgs =
-      mode === "a11y"
-        ? ["exec", "playwright", "test", "tests/accessibility.spec.ts"]
-        : ["exec", "playwright", "test"]
+  if (["all", "standard", "a11y", "smoke"].includes(mode)) {
+    const testFiles = {
+      all: [],
+      standard: ["tests/accessibility.spec.ts", "tests/smoke.spec.ts"],
+      a11y: ["tests/accessibility.spec.ts"],
+      smoke: ["tests/smoke.spec.ts"],
+    }[mode]
 
-    await run("pnpm", testArgs, {
+    await run("pnpm", ["exec", "playwright", "test", ...testFiles], {
       env: { ...process.env, QUALITY_BASE_URL: baseUrl },
     })
   }

@@ -42,11 +42,17 @@ Read these first:
 
 Use the actual project commands:
 
+- Normal local verification: `pnpm run verify`
+- Full CI-equivalent verification: `pnpm run verify:full`
+- Static-only verification: `pnpm run verify:static`
 - Build: `pnpm run build`
+- Formatting check: `pnpm run format:check`
 - Full quality suite: `pnpm run quality`
+- Standard browser checks: `pnpm run quality:standard`
 - Accessibility: `pnpm run quality:a11y`
 - Lighthouse: `pnpm run quality:lighthouse`
-- Smoke tests: `pnpm run test:smoke`
+- Smoke tests with managed preview: `pnpm run quality:smoke`
+- Smoke tests against an already running preview: `pnpm run test:smoke`
 - Visual regression: `pnpm run quality:visual`
 - Indexing checks: `pnpm run validate:indexing`
 - JSON-LD checks: `pnpm run validate:jsonld`
@@ -69,4 +75,4 @@ Use the actual project commands:
 
 # Deployment
 
-The site deploys through GitHub Actions in [.github/workflows/pages.yml](.github/workflows/pages.yml). Pushes to `main` build the static `dist/` output, run validations and quality checks, upload the Pages artifact, and deploy to GitHub Pages. Pull requests run the build and checks but do not deploy.
+The site deploys through GitHub Actions in [.github/workflows/pages.yml](.github/workflows/pages.yml). Pushes to `main` run `pnpm run verify:full`, upload the resulting `dist/` artifact, and deploy to GitHub Pages. Pull requests run verification but do not deploy. Cloudflare analytics secrets are only exposed to push builds.

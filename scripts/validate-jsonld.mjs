@@ -127,7 +127,6 @@ expectedMeta.forEach(([attributeName, attributeValue, expectedContent]) => {
     )
   }
 })
-
 ;[
   "address",
   "telephone",

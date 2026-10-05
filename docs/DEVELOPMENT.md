@@ -43,6 +43,39 @@ The quality scripts start their own preview server when needed.
 pnpm run format
 ```
 
+Check formatting without rewriting files:
+
+```sh
+pnpm run format:check
+```
+
+## Local Verification
+
+Run the normal pre-commit verification command:
+
+```sh
+pnpm run verify
+```
+
+This runs:
+
+- formatting check
+- production build
+- indexing validation
+- JSON-LD validation
+- link validation
+- analytics presence/absence validation
+- accessibility checks
+- Playwright smoke tests
+
+Run the full CI-equivalent verification command:
+
+```sh
+pnpm run verify:full
+```
+
+This runs everything in `pnpm run verify` plus Lighthouse and visual regression.
+
 ## Static Validation
 
 Run these after `pnpm run build`:
@@ -73,22 +106,25 @@ Focused commands:
 
 ```sh
 pnpm run quality:lighthouse
+pnpm run quality:standard
 pnpm run quality:a11y
+pnpm run quality:smoke
 pnpm run quality:visual
 pnpm run test:smoke
 ```
 
-`pnpm run test:smoke` expects a preview server to already be running.
+`pnpm run quality:standard`, `quality:a11y`, `quality:smoke`, `quality:visual`, and `quality:lighthouse` start their own preview server. `pnpm run test:smoke` expects a preview server to already be running.
 
 ## Full Verification
 
 For a normal local build without analytics:
 
 ```sh
-pnpm run build
-pnpm run validate:indexing
-pnpm run validate:jsonld
-pnpm run validate:links
-pnpm run validate:analytics -- absent
-pnpm run quality
+pnpm run verify
+```
+
+For the full local gate:
+
+```sh
+pnpm run verify:full
 ```

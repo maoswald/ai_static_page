@@ -4,6 +4,32 @@
 
 The project uses lightweight checks for a small static site. There is no separate unit-test layer; validation is covered by static scripts, Lighthouse CI, Playwright, axe, smoke tests, and visual regression.
 
+## Verification Commands
+
+Normal local verification:
+
+```sh
+pnpm run verify
+```
+
+This is the default command to run before committing. It checks formatting, builds the site, validates static output, starts one local preview server, then runs accessibility and smoke tests.
+
+Full verification:
+
+```sh
+pnpm run verify:full
+```
+
+This is the CI-equivalent command. It runs the normal static gates plus Lighthouse and the full Playwright suite, including visual regression.
+
+Static-only verification:
+
+```sh
+pnpm run verify:static
+```
+
+This checks formatting, build output, indexing, JSON-LD, links, and analytics expectations without starting the preview server.
+
 ## Build
 
 ```sh
@@ -83,6 +109,14 @@ Runs Playwright with axe against the configured pages and checks heading outline
 ## Smoke Tests
 
 ```sh
+pnpm run quality:smoke
+```
+
+This starts a preview server and runs the smoke tests.
+
+The underlying Playwright-only command is:
+
+```sh
 pnpm run test:smoke
 ```
 
@@ -96,7 +130,7 @@ Smoke tests cover:
 - Footer keyboard focus and hover states
 - 404 behavior
 
-This command expects a preview server to already be running. `pnpm run quality` starts one automatically.
+`pnpm run test:smoke` expects a preview server to already be running.
 
 ## Visual Regression
 
@@ -123,3 +157,7 @@ pnpm run quality
 ```
 
 Starts a local preview server and runs Lighthouse, accessibility, smoke, and visual checks against the built site.
+
+## Failure Artifacts
+
+Playwright traces are retained on failure. CI uploads `test-results/`, `playwright-report/`, and `.lighthouseci/` only when a verification step fails.
