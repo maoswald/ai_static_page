@@ -4,6 +4,12 @@ This repository is the source for the public personal website at https://manuelo
 
 The site presents Manuel Oswald's professional positioning: Enterprise Transformation, Technology Strategy and AI & Cloud. It is a minimal professional landing page with legal pages, structured data, social metadata, a sitemap, robots.txt, and a small quality-test suite.
 
+## Stable Maintenance State
+
+The site is considered feature-complete for its current purpose. Treat the current implementation as the v1 baseline. Future work should normally be limited to content updates, professional positioning updates, bug fixes, dependency/security maintenance, or explicitly requested features.
+
+AI agents should not proactively introduce a new framework, backend, database, CMS, blog, complex animations, additional analytics, visual redesign, or broader product scope without an explicit request.
+
 ## What This Site Is
 
 - A static personal/professional website

@@ -120,7 +120,9 @@ See [TESTING.md](TESTING.md).
 
 ## CI/CD
 
-`.github/workflows/pages.yml` runs on pull requests, pushes to `main`, and manual dispatch. It installs pnpm dependencies, installs Playwright Chromium, builds the site, runs validators, runs the quality suite, and deploys only on pushes to `main`.
+`.github/workflows/pages.yml` runs on pull requests, pushes to `main`, and manual dispatch. It installs pnpm dependencies, installs Playwright Chromium, runs `pnpm run verify:full`, uploads failure artifacts when needed, and deploys only on pushes to `main`.
+
+The project is at its v1 maintenance baseline. `package.json` is versioned as `1.0.0`; no release automation or remote tag creation is required unless explicitly requested.
 
 ## GitHub Pages Deployment
 

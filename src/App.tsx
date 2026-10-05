@@ -1,5 +1,5 @@
 const links = {
-  github: "https://github.com/manueloswald",
+  github: "https://github.com/maoswald",
   linkedin: "https://www.linkedin.com/in/manueloswald/",
   email: "mailto:contact@manueloswald.com",
 } as const

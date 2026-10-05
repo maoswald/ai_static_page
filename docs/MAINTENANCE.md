@@ -1,5 +1,22 @@
 # Maintenance
 
+## Current Stable Baseline
+
+- Production URL: `https://manueloswald.com`
+- Version marker: v1 baseline, with `package.json` at `1.0.0`
+- Architecture: static React/Vite homepage, plain static legal pages, custom static 404 page
+- Deployment: GitHub Actions builds `dist/` and deploys to GitHub Pages from pushes to `main`
+- Analytics: optional Cloudflare Web Analytics beacon, enabled only when `CLOUDFLARE_WEB_ANALYTICS_TOKEN` is configured for production builds
+- SEO: canonical homepage metadata in `index.html`, Person JSON-LD in `index.html`, Open Graph/Twitter metadata from `.figma/make/site.json`, sitemap and robots files in `public/`
+- Quality gates: formatting, production build, indexing validation, JSON-LD validation, link validation, analytics validation, axe accessibility, Playwright smoke tests, visual regression, and Lighthouse
+- Local verification: `pnpm run verify`
+- Full verification: `pnpm run verify:full`
+- Common content changes: `src/App.tsx`
+- Common design changes: `src/index.css`, plus `public/legal.css` for static legal pages
+- Common metadata changes: `index.html`, `.figma/make/site.json`, and `vite.config.ts`
+
+The site is feature-complete for its current purpose. Default maintenance should focus on content, positioning, bug fixes, dependency/security updates, and explicitly requested features. Do not expand the product scope by adding a backend, database, CMS, blog, extra analytics, complex animations, or a redesign without an explicit request.
+
 ## Change Hero Headline
 
 Edit the hero `<h1>` in `src/App.tsx`. Keep line breaks intentional and rerun visual tests.
@@ -70,13 +87,10 @@ Do not commit real token values.
 ## Run Tests
 
 ```sh
-pnpm run build
-pnpm run validate:indexing
-pnpm run validate:jsonld
-pnpm run validate:links
-pnpm run validate:analytics -- absent
-pnpm run quality
+pnpm run verify
 ```
+
+Use `pnpm run verify:full` before releases or deployment-sensitive changes.
 
 ## Update Visual Baselines
 

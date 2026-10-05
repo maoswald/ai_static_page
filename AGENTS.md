@@ -12,6 +12,22 @@ This repository contains the source for https://manueloswald.com.
 - Low maintenance
 - GitHub Pages compatibility
 
+# Stable Maintenance Boundary
+
+The site is considered feature-complete for its current purpose. Future changes should normally be limited to content changes, professional positioning changes, bug fixes, dependency/security maintenance, and explicitly requested features.
+
+Do not proactively:
+
+- Introduce a framework
+- Add a backend
+- Add a database
+- Turn the site into a CMS
+- Add a blog
+- Add complex animations
+- Add additional analytics
+- Redesign the visual language
+- Expand scope without an explicit request
+
 # Before Making Changes
 
 Read these first:
