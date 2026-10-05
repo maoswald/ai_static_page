@@ -1,0 +1,17 @@
+body {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  background: #f2f2f1;
+  color: #080808;
+  font: 18px/1.6 Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1;
+}

@@ -14,7 +14,7 @@ Edit the `editorial--about` or `editorial--beyond` sections in `src/App.tsx`.
 
 ## Change Footer Links
 
-Edit the `links` object and footer anchors in `src/App.tsx`. If public profile URLs change, also update JSON-LD `sameAs` in `index.html` and rerun `pnpm run validate:jsonld`.
+Edit the `links`, `legalLinks`, and `socialLinks` configuration in `src/App.tsx`. If public profile URLs change, also update JSON-LD `sameAs` in `index.html` and rerun `pnpm run validate:jsonld`.
 
 ## Replace the Open Graph Image
 
@@ -41,11 +41,11 @@ Homepage footer links live in `src/App.tsx`. Public profile links represented as
 
 ## Change Colors
 
-Edit color custom properties in `src/index.css`. Intentional color changes require visual baseline review.
+Edit color custom properties in `src/index.css`. If changing legal-page colors, keep `public/legal.css` aligned. Intentional color changes require visual baseline review.
 
 ## Change Typography
 
-Edit font, weight, tracking, line-height, and responsive font-size rules in `src/index.css`. Keep text readable at mobile, tablet, and desktop widths.
+Edit font, weight, tracking, line-height, and responsive font-size rules in `src/index.css`. The static legal pages have their small shared type rules in `public/legal.css`. Keep text readable at mobile, tablet, and desktop widths.
 
 ## Change Analytics Configuration
 

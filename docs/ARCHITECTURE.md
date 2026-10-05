@@ -17,11 +17,11 @@ This repository builds the static public website for https://manueloswald.com. T
 
 ## Repository Structure
 
-- `src/App.tsx` contains homepage content, section data, icons, and footer links.
+- `src/App.tsx` contains homepage content, section data, icons, and footer link configuration.
 - `src/main.tsx` mounts React into `#root`.
 - `src/index.css` contains Tailwind import, CSS design tokens, layout, responsive rules, and interaction states.
 - `index.html` is the Vite HTML shell with metadata, JSON-LD, and no-JavaScript fallback content.
-- `public/` contains static assets and legal pages.
+- `public/` contains static assets, legal pages, and the shared legal-page stylesheet.
 - `.figma/make/site.json` contains site metadata consumed by the Vite config.
 - `scripts/` contains validation and quality orchestration scripts.
 - `tests/` contains Playwright accessibility, smoke, and visual tests.
@@ -46,13 +46,17 @@ The legal pages are plain static HTML files:
 - `public/imprint.html`
 - `public/privacy.html`
 
+They share `public/legal.css`.
+
 The custom GitHub Pages 404 page is:
 
 - `public/404.html`
 
 ## CSS and Design Architecture
 
-CSS is centralized in `src/index.css`. Design tokens are CSS custom properties on `:root`, including colors, font family, weights, tracking, line heights, spacing, border, and transition timing. Tailwind is imported, but the visual system is primarily custom CSS rather than utility-heavy markup.
+Homepage CSS is centralized in `src/index.css`. Design tokens are CSS custom properties on `:root`, including colors, font family, weights, tracking, line heights, spacing, footer dimensions, icon dimensions, focus outlines, border, and transition timing. Tailwind is imported, but the visual system is primarily custom CSS rather than utility-heavy markup.
+
+Static legal pages use `public/legal.css` to avoid duplicating their small shared style block. The custom 404 page keeps inline CSS so GitHub Pages can serve it as a standalone error document.
 
 ## Responsive Implementation
 
@@ -65,7 +69,7 @@ At mobile widths the page becomes a vertical flex layout. Reduced motion is hand
 
 ## Static Asset Handling
 
-Static public files live in `public/` and are copied into `dist/` by Vite. The canonical social image is `public/social-image.png`; favicon is `public/favicon.svg`; the custom domain is preserved through `public/CNAME`.
+Static public files live in `public/` and are copied into `dist/` by Vite. The canonical social image is `public/social-image.png`; favicon is `public/favicon.svg`; legal-page CSS is `public/legal.css`; the custom domain is preserved through `public/CNAME`.
 
 ## SEO Architecture
 

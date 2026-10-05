@@ -35,10 +35,19 @@ Typography uses `clamp()` in CSS for responsive sizing. The hero headline intent
 The main page spacing token is:
 
 - `--space-page: clamp(2rem, 4.45vw, 4.3rem)`
+- `--focus-icon-column: 4.25rem`
+- `--focus-icon-size: 3.85rem`
+- `--footer-block-size: max(6.2rem, 9.65vh)`
+- `--footer-icon-size: 2.4rem`
+- `--footer-email-icon-size: 2.7rem`
+- `--interactive-min-size: 44px`
 
 Mobile changes this to:
 
 - `--space-page: clamp(1.35rem, 6.5vw, 2.25rem)`
+- `--focus-icon-column: 3.5rem`
+- `--focus-icon-size: 3.15rem`
+- `--footer-block-size: 5.5rem`
 
 ## Grid and Layout
 
@@ -76,11 +85,22 @@ Hover transitions use:
 
 - `--transition: 180ms ease`
 
+Keyboard focus uses:
+
+- `--focus-outline: 3px solid currentColor`
+- `--focus-outline-offset: -6px`
+
 Reduced motion disables smooth scrolling and social-link transitions.
 
 ## Icon Style
 
 The site uses inline SVG icons. Focus-area icons use stroked line art; footer icons use compact social/contact marks. Icons are part of `src/App.tsx`.
+
+Footer legal and social links are configured as small arrays in `src/App.tsx`; keep labels and order intentional because tests assert the accessible names and link behavior.
+
+## Legal Page Styling
+
+The static legal pages share `public/legal.css`. Keep that file visually aligned with the main design tokens, but avoid expanding it into a second full design system.
 
 ## Visual Regression Baseline
 
