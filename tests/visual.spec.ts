@@ -19,6 +19,7 @@ async function prepareStableScreenshot(page: import("@playwright/test").Page) {
         animation-delay: 0s !important;
         animation-duration: 0s !important;
         caret-color: transparent !important;
+        font-family: Arial, Helvetica, sans-serif !important;
         transition-delay: 0s !important;
         transition-duration: 0s !important;
       }
