@@ -1,41 +1,72 @@
-# figma-make-app
+# Purpose
 
-React + Vite + Tailwind CSS project running inside Figma Make.
+This repository contains the source for https://manueloswald.com.
 
-## Development Server
+# Project Goals
 
-A Vite development server is **already running** on `$PORT` (default 8443). You don't need to start it manually.
+- Simplicity
+- Visual consistency
+- Accessibility
+- Performance
+- Minimal JavaScript
+- Low maintenance
+- GitHub Pages compatibility
 
-- Preview URL: The user can access the running app through the preview panel
-- Hot reload: Changes to source files are reflected immediately
+# Before Making Changes
 
-## Project Structure
+Read these first:
 
-This is the canonical project structure. Start with task-relevant files below. Only follow imports or inspect other files when required, when a documented path is missing, or when the repository contradicts this guide.
+- [docs/AI_CONTEXT.md](docs/AI_CONTEXT.md)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/DESIGN.md](docs/DESIGN.md)
+- [docs/TESTING.md](docs/TESTING.md)
+- [docs/MAINTENANCE.md](docs/MAINTENANCE.md)
 
-- `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx` into the `#root` element
-- `src/App.tsx` - Primary application component and the usual starting point for UI work
-- `src/index.css` - Global CSS entrypoint and Tailwind CSS v4 import
-- `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
-- `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
-- `vite.config.ts` - Vite configuration with React, Tailwind CSS v4, and Figma Make plugins plus the `@` alias for `src`
-- `.mise.toml` - Toolchain versions for Node.js and pnpm
+# Non-Negotiable Rules
 
-## Dependencies
+- Do not redesign unless explicitly requested.
+- Preserve the established visual language.
+- Do not introduce frameworks unnecessarily.
+- Do not introduce a backend or database.
+- Prefer static HTML/CSS and simple build-time behavior.
+- Reuse existing design tokens and components.
+- Preserve responsive behavior.
+- Preserve accessibility.
+- Do not expose personal or private data.
+- The canonical production domain is `https://manueloswald.com`.
+- Do not use `github.io` as a production canonical URL.
+- Keep changes narrowly scoped.
+- Do not refactor unrelated parts opportunistically.
 
-- Runtime: React 19 and React DOM 19
-- Styling: Tailwind CSS v4 with the `@tailwindcss/vite` plugin
-- Build tooling: Vite 8, TypeScript 5.7, and `@vitejs/plugin-react`
-- Formatting: oxfmt
+# Required Validation
 
-## Styling
+Use the actual project commands:
 
-This project uses **Tailwind CSS v4** through the `@tailwindcss/vite` plugin configured in `vite.config.ts`. `src/index.css` imports Tailwind with `@import 'tailwindcss';`. Use Tailwind utility classes directly in JSX and put global CSS or Tailwind v4 theme customization in `src/index.css`. This scaffold does not need a Tailwind config file or PostCSS config.
+- Build: `pnpm run build`
+- Full quality suite: `pnpm run quality`
+- Accessibility: `pnpm run quality:a11y`
+- Lighthouse: `pnpm run quality:lighthouse`
+- Smoke tests: `pnpm run test:smoke`
+- Visual regression: `pnpm run quality:visual`
+- Indexing checks: `pnpm run validate:indexing`
+- JSON-LD checks: `pnpm run validate:jsonld`
+- Link checks: `pnpm run validate:links`
+- Analytics disabled locally: `pnpm run validate:analytics -- absent`
+- Analytics enabled in production builds with a configured token: `pnpm run validate:analytics -- present`
 
-`src/main.tsx` imports `src/index.css`, so global font wiring belongs in `src/index.css`. Keep CSS `@import` statements first, then add any `@font-face` rules and font-family defaults there.
+# Important Project Locations
 
-## Code quality
+- Site content: [src/App.tsx](src/App.tsx)
+- Styles and design tokens: [src/index.css](src/index.css)
+- HTML shell, canonical URL, no-JavaScript fallback, JSON-LD: [index.html](index.html)
+- Open Graph, Twitter/X metadata, social image configuration: [.figma/make/site.json](.figma/make/site.json)
+- Head/SEO metadata and Cloudflare analytics injection: [vite.config.ts](vite.config.ts)
+- Static legal pages and assets: [public/](public/)
+- Sitemap and robots: [public/sitemap.xml](public/sitemap.xml), [public/robots.txt](public/robots.txt)
+- Tests: [tests/](tests/)
+- Quality scripts: [scripts/](scripts/)
+- CI and deployment: [.github/workflows/pages.yml](.github/workflows/pages.yml)
 
-- Use double quotes for strings containing apostrophes (`"We're here to help"`), or escape them in single-quoted strings. An unescaped apostrophe in a single-quoted string breaks the build.
-- Ensure JSX tags are closed and braces are balanced.
-- Export components as default exports.
+# Deployment
+
+The site deploys through GitHub Actions in [.github/workflows/pages.yml](.github/workflows/pages.yml). Pushes to `main` build the static `dist/` output, run validations and quality checks, upload the Pages artifact, and deploy to GitHub Pages. Pull requests run the build and checks but do not deploy.
