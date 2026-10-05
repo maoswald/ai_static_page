@@ -4,6 +4,9 @@ build/
 .cache/
 .lighthouseci/
 test-results/
+playwright-report/
+coverage/
+.nyc_output/
 .env*
 !.env.example
 .vite/
@@ -12,6 +15,8 @@ vite.config.*.timestamp-*
 *-debug.log*
 logs/
 *.log
+.DS_Store
+Thumbs.db
 .claude-replay.*
 .tmp-*
 /.figma/design-context/

@@ -66,7 +66,6 @@ type FigmaSiteConfiguration = {
     imageAlt?: string
   }
   analytics?: {
-    googleAnalyticsId?: string
     cloudflareWebAnalyticsToken?: string
   }
   customScripts?: {
@@ -110,9 +109,6 @@ function figmaSiteConfiguration(
   const socialImageHeight = config.openGraph?.imageHeight
   const socialImageAlt = config.openGraph?.imageAlt ?? ""
   const language = sanitizeHtmlValue(config.language) || "en"
-  const googleAnalyticsId = sanitizeHtmlValue(
-    config.analytics?.googleAnalyticsId,
-  )
   const cloudflareWebAnalyticsToken = (
     process.env.CLOUDFLARE_WEB_ANALYTICS_TOKEN ??
     config.analytics?.cloudflareWebAnalyticsToken ??
@@ -261,29 +257,6 @@ function figmaSiteConfiguration(
                   },
                 ]
               : []),
-          )
-        }
-
-        if (googleAnalyticsId) {
-          tags.push(
-            {
-              tag: "script",
-              attrs: {
-                async: true,
-                src: `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`,
-              },
-              injectTo: "head",
-            },
-            {
-              tag: "script",
-              children: `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', ${JSON.stringify(googleAnalyticsId)});
-`,
-              injectTo: "head",
-            },
           )
         }
 
